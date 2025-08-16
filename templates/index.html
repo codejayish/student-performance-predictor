@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Student Race/Ethnicity Predictor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 2rem; background-color: #f8f9fa; }
+        .card { max-width: 560px; margin: auto; padding: 2rem; background-color: white; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .row { margin-bottom: 1.25rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333; }
+        input, select { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1rem;}
+        button { width: 100%; padding: 0.8rem 1rem; border: none; border-radius: 10px; cursor: pointer; background: #1f6feb; color: white; font-size: 1rem; font-weight: 600; }
+        .error { color: #d93025; margin-top: 1rem; font-weight: 500; }
+        .result { margin-top: 1.5rem; padding: 1rem; background: #e9f5ff; border: 1px solid #aed6f1; border-radius: 8px; text-align: center; }
+        .result strong { font-size: 1.1rem; color: #1f6feb; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Predict Student Race/Ethnicity</h2>
+        <p>Enter the student's details and scores to get a prediction.</p>
+
+        <form action="/predict" method="POST" novalidate>
+            <div class="row">
+                <label for="math_score">Math Score (0-100)</label>
+                <input type="number" id="math_score" name="math_score" min="0" max="100" step="1" required />
+            </div>
+
+            <div class="row">
+                <label for="reading_score">Reading Score (0-100)</label>
+                <input type="number" id="reading_score" name="reading_score" min="0" max="100" step="1" required />
+            </div>
+
+            <div class="row">
+                <label for="writing_score">Writing Score (0-100)</label>
+                <input type="number" id="writing_score" name="writing_score" min="0" max="100" step="1" required />
+            </div>
+
+            <div class="row">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label for="parental_education">Parental Level of Education</label>
+                <select id="parental_education" name="parental_education" required>
+                    <option value="bachelor's degree">Bachelor's Degree</option>
+                    <option value="some college">Some College</option>
+                    <option value="master's degree">Master's Degree</option>
+                    <option value="associate's degree">Associate's Degree</option>
+                    <option value="high school">High School</option>
+                    <option value="some high school">Some High School</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label for="lunch">Lunch Program</label>
+                <select id="lunch" name="lunch" required>
+                    <option value="standard">Standard</option>
+                    <option value="free/reduced">Free/Reduced</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label for="test_prep">Test Preparation Course</label>
+                <select id="test_prep" name="test_prep" required>
+                    <option value="none">None</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <button type="submit">Predict</button>
+
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+            
+            {% if prediction %}
+                <div class="result">
+                    <strong>Predicted Race/Ethnicity: {{ prediction }}</strong>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
